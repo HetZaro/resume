@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Артём Покровский - Веб-разработчик и музыкант. Футуристическое портфолио">
+    <title>Артём Покровский - Веб-разработчик</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :root {
+            --bg-primary: #04040E;
+            --text-primary: #FFFFFF;
+            --text-muted: #A0A0FF;
+            --accent-cyan: #00FFFF;
+            --accent-magenta: #FF00FF;
+            --glass-bg: rgba(20, 20, 40, 0.15);
+            --glass-border: rgba(0, 255, 255, 0.3);
+            --shadow-glow: 0 8px 32px rgba(0, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            background-image: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.1), transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1), transparent 50%);
+            opacity: 0.5;
+            animation: pulse 10s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+            border-radius: 50%;
+            animation: particle 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes particle {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100vw, 100vh); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes flowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { box-shadow: 0 0 10px var(--accent-cyan), inset 0 0 5px rgba(0, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px var(--accent-magenta), inset 0 0 10px rgba(255, 0, 255, 0.5); }
+        }
+
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glow);
+            border-radius: 12px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: zoomIn 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .glass-effect::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.1), transparent 70%);
+            border-radius: 12px;
+            opacity: 0.5;
+        }
+
+        .glass-effect:hover {
+            transform: translateY(-8px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 16px 48px rgba(0, 255, 255, 0.25);
+        }
+
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-cyan);
+        }
+
+        .btn-accent {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            border: none;
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 12px 24px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-accent::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-accent:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .btn-accent:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .btn-outline-accent {
+            border: 1px solid var(--accent-cyan);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-outline-accent:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .progress {
+            background: rgba(20, 20, 40, 0.5);
+            border-radius: 6px;
+            height: 8px;
+            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--accent-cyan), #A0A0FF, var(--accent-magenta), #A0A0FF, var(--accent-cyan));
+            background-size: 400% 100%;
+            border-radius: 6px;
+            animation: flowGradient 8s infinite ease-in-out, progressGlow 8s infinite ease-in-out;
+        }
+        .card-text {
+    color: rgba(0, 255, 255, 0.9) !important;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+        .card-img-top {
+            transition: transform 0.5s ease;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-img-overlay {
+            background: linear-gradient(to top, rgba(4, 4, 14, 0.9), transparent);
+            animation: zoomIn 0.8s ease forwards;
+        }
+
+        .scroll-indicator {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .form-control {
+            background: rgba(20, 20, 40, 0.5);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            border-radius: 12px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+            background: rgba(20, 20, 40, 0.7);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        p {
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+        }
+
+        h1.fs-1, h2.fs-1 {
+            animation: zoomIn 0.5s ease forwards;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        section, .header-content, .header-image, .social-icon, .stats-box {
+            opacity: 0;
+            animation: zoomIn 0.8s ease forwards;
+        }
+
+        section:nth-child(1), .header-content { animation-delay: 0.2s; }
+        section:nth-child(2), .header-image { animation-delay: 0.4s; }
+        section:nth-child(3), .social-icon:nth-child(1), .stats-box:nth-child(1) { animation-delay: 0.6s; }
+        section:nth-child(4), .social-icon:nth-child(2), .stats-box:nth-child(2) { animation-delay: 0.8s; }
+        section:nth-child(5), .social-icon:nth-child(3), .stats-box:nth-child(3) { animation-delay: 1.0s; }
+        .social-icon:nth-child(4), .stats-box:nth-child(4) { animation-delay: 1.2s; }
+
+        .social-icon {
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .social-icon:hover {
+            transform: rotateY(360deg);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 16px;
+            text-align: center;
+            color: var(--accent-cyan);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message.fade-out {
+            opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-content { padding: 1rem !important; }
+            .header-image { width: 100px !important; }
+            .glass-effect { border-radius: 8px; }
+            .btn-accent, .btn-outline-accent { padding: 8px 16px; font-size: 0.9rem; }
+            .container { padding-left: 16px; padding-right: 16px; }
+        }
+
+        @media (max-width: 576px) {
+            h1.fs-1 { font-size: clamp(1.5rem, 6vw, 1.8rem) !important; }
+            h2.fs-1 { font-size: clamp(1.3rem, 5vw, 1.6rem) !important; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1200px; }
+        }
+        .imgavatar{
+        width: 200px; 
+        height: 200px; 
+        border-radius: 50%;
+        }
+        .header {
+                margin: auto;
+                width: 100vh;
+                display: flex;
+                align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <header class=" header vh-100 d-flex align-items-center position-relative overflow-hidden;" aria-label="Главная секция">
+        <nav class="navbar navbar-expand-md navbar-dark container position-absolute top-0 w-100">
+            <a class="navbar-brand fs-3 fw-bold" href="#" style="font-family: 'Orbitron', sans-serif;">HetZaro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="ri-menu-line ri-xl"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-3">
+                    <li class="nav-item"><a class="nav-link active" href="#about">Обо мне</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Навыки</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Опыт</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#education">Образование</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#music">Музыка</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container z-10">
+            <div class="glass-effect p-5 header-content" style="max-width: 1000px;">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center">
+                        <img class="imgavatar" src="https://sun9-79.userapi.com/impg/z8hU1xhH8iM7n2EpRnUbF6rkg7Dq0-klUFtpzg/t9h5y6s0NsQ.jpg?size=1920x1920&quality=95&sign=36137f45f21ca47ecddf64edef990879&type=album" srcset="https://sun9-79.userapi.com/impg/z8hU1xhH8iM7n2EpRnUbF6rkg7Dq0-klUFtpzg/t9h5y6s0NsQ.jpg?size=1920x1920&quality=95&sign=36137f45f21ca47ecddf64edef990879&type=album width: 200px;">
+                    </div>
+                    <div class="col-md-8 text-center text-md-start">
+                        <h1 class="fs-1 fw-bold mb-2">Артём Покровский</h1>
+                        <h2 class="fs-4 fw-semibold mb-4">Веб-разработчик</h2>
+                        <p class="text-muted mb-4">Студент, кодер, музыкант. Создаю цифровые миры, где код и ритм сливаются в шедевры.</p>
+                        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+                            <a href="#contact" class="btn btn-accent" tabindex="0" aria-label="Связаться">Связаться</a>
+                            <a href="#experience" class="btn btn-outline-accent" data-bs-smooth-scroll="true" tabindex="0" aria-label="Перейти к портфолио">Портфолио</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <section id="about" class="py-5" aria-label="Обо мне">
+            <h2 class="fs-1 fw-bold text-center mb-5">Обо мне</h2>
+            <div class="glass-effect p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-3">Кто я</h3>
+                        <p class="text-muted mb-3">Артём Покровский, 18 лет. Кодер с душой художника, превращаю идеи в цифровую реальность.</p>
+                        <p class="text-muted mb-3">Студент 2-го курса Вологодского колледжа связи и ИТ, погруженный в мир технологий.</p>
+                        <p class="text-muted">Музыкант с 83к+ слушателей в месяц, чьи треки задают ритм моим проектам.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://sun9-52.userapi.com/impg/hBoudHAvdXYEp83oTd4p33DvtNWGQtuG63mb6w/_U2S6F9Y-1s.jpg?size=2560x2560&quality=95&sign=9fa1155384f09916f45996685cd4bc90&type=album" srcset="https://sun9-52.userapi.com/impg/hBoudHAvdXYEp83oTd4p33DvtNWGQtuG63mb6w/_U2S6F9Y-1s.jpg?size=2560x2560&quality=95&sign=9fa1155384f09916f45996685cd4bc90&type=album 300w, https://sun9-52.userapi.com/impg/hBoudHAvdXYEp83oTd4p33DvtNWGQtuG63mb6w/_U2S6F9Y-1s.jpg?size=2560x2560&quality=95&sign=9fa1155384f09916f45996685cd4bc90&type=album 600w" sizes="(max-width: 768px) 150px, 300px" class="rounded-3 w-100 mb-4" alt="Цифровое творчество" loading="lazy">
+                        <h3 class="fs-4 fw-semibold mb-3">Мои цели</h3>
+                        <ul class="list-unstyled">
+                            <li class="d-flex mb-3"><i class="ri-check-line ri-lg me-2" style="color: var(--accent-cyan);"></i> Покорить вершины веб-разработки</li>
+                            <li class="d-flex mb-3"><i class="ri-check-line ri-lg me-2" style="color: var(--accent-cyan);"></i> Освоить передовые фреймворки</li>
+                            <li class="d-flex mb-3"><i class="ri-check-line ri-lg me-2" style="color: var(--accent-cyan);"></i> Создавать проекты, меняющие мир</li>
+                            <li class="d-flex"><i class="ri-check-line ri-lg me-2" style="color: var(--accent-cyan);"></i> Смешать код и музыку в искусство</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-5" aria-label="Навыки">
+            <h2 class="fs-1 fw-bold text-center mb-5">Навыки</h2>
+            <div class="glass-effect p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-4">Технические навыки</h3>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1"><span>HTML</span><span style="color: var(--accent-cyan);">85%</span></div>
+                            <div class="progress"><div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1"><span>CSS</span><span style="color: var(--accent-cyan);">80%</span></div>
+                            <div class="progress"><div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1"><span>Figma</span><span style="color: var(--accent-cyan);">70%</span></div>
+                            <div class="progress"><div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1"><span>Bootstrap</span><span style="color: var(--accent-cyan);">65%</span></div>
+                            <div class="progress"><div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-4">Мягкие навыки</h3>
+                        <div class="row row-cols-2 g-3">
+                            <div class="glass-effect p-3 text-center"><i class="ri-time-line ri-2x mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6">Тайм-менеджмент</p></div>
+                            <div class="glass-effect p-3 text-center"><i class="ri-team-line ri-2x mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6">Командная работа</p></div>
+                            <div class="glass-effect p-3 text-center">
+                                <i class="ri-lightbulb-flash-line ri-2x mb-2" style="color: var(--accent-cyan);"></i>
+                                <p class="fs-6">Креативность</p>
+                            </div>
+                            <div class="glass-effect p-3 text-center"><i class="ri-book-open-line ri-2x mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6">Быстрое обучение</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="experience" class="py-5" aria-label="Портфолио">
+    <h2 class="fs-1 fw-bold text-center mb-5">Портфолио</h2>
+    <div class="glass-effect p-5">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card glass-effect">
+                    <img src="" 
+                         srcset="https://sun9-10.userapi.com/impg/ulXB-kTkEaaY9ARqLcRb-cLbCI8gdtwAwFb9Fw/dGBH2WnMW7E.jpg?size=1542x2160&quality=95&sign=98973e0e47c821e7b5693d7b8d5f6459&type=album 300w, 
+                                https://sun9-10.userapi.com/impg/ulXB-kTkEaaY9ARqLcRb-cLbCI8gdtwAwFb9Fw/dGBH2WnMW7E.jpg?size=1542x2160&quality=95&sign=98973e0e47c821e7b5693d7b8d5f6459&type=album 600w" 
+                         sizes="(max-width: 768px) 300px, 600px" 
+                         class="card-img-top" 
+                         alt="Проект в Figma" 
+                         loading="lazy"
+                         style="object-fit: cover; height: 200px;">
+                    <div class="card-body" style="background: rgba(4, 4, 14, 0.7);">
+                        <h4 class="card-title fs-5 fw-semibold text-white">Дизайн интернет-магазина</h4>
+                        <p class="card-text text-white">UI/UX для магазина электроники с футуристичным дизайном.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-accent">Март 2025</span>
+                            <a href="https://www.figma.com/proto/mwECViYJWWfUwX0m23gnUz/YANKI-IZAKAYA?node-id=25-576&t=ACIcurvDGwCvCiFV-1" class="text-accent"><i class="ri-external-link-line ri-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card glass-effect">
+                    <img src="https://sun9-46.userapi.com/impg/BTXXrwMqbKM10D3bpaFi5AtMCjXyLSZTAouu4w/ceK_x5uzh_4.jpg" 
+                         srcset="https://sun9-46.userapi.com/impg/BTXXrwMqbKM10D3bpaFi5AtMCjXyLSZTAouu4w/ceK_x5uzh_4.jpg?size=899x2160&quality=95&sign=4a507e027538ec98571cf9d5b6e67fc8&type=album 300w, 
+                                https://sun9-46.userapi.com/impg/BTXXrwMqbKM10D3bpaFi5AtMCjXyLSZTAouu4w/ceK_x5uzh_4.jpg?size=899x2160&quality=95&sign=4a507e027538ec98571cf9d5b6e67fc8&type=album 600w" 
+                         sizes="(max-width: 768px) 300px, 600px" 
+                         class="card-img-top" 
+                         alt="Вёрстка сайта" 
+                         loading="lazy"
+                         style="object-fit: cover; height: 200px;">
+                    <div class="card-body" style="background: rgba(4, 4, 14, 0.7);">
+                        <h4 class="card-title fs-5 fw-semibold text-white">Блог о технологиях</h4>
+                        <p class="card-text text-white">Многостраничный блог с кибер-дизайном и интерактивами.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-accent">Декабрь 2024</span>
+                            <a href="https://www.figma.com/proto/HiWU6i392pwR8Jdx7SZBmC/Untitled?node-id=38-367&t=ECSs38iYetl6u9lb-1"><i class="ri-external-link-line ri-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <section id="education" class="py-5" aria-label="Образование">
+            <h2 class="fs-1 fw-bold text-center mb-5">Образование</h2>
+            <div class="glass-effect p-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6 position-relative">
+                        <img src="https://avatars.mds.yandex.net/get-altay/2022045/2a00000170d81211cf4cbae3f36514f92e00/XXXL" srcset="https://avatars.mds.yandex.net/get-altay/2022045/2a00000170d81211cf4cbae3f36514f92e00/XXXL 300w, https://avatars.mds.yandex.net/get-altay/2022045/2a00000170d81211cf4cbae3f36514f92e00/XXXL 600w" sizes="(max-width: 768px) 300px, 600px" class="rounded-3 w-100" alt="Колледж" loading="lazy">
+                        <div class="position-absolute bottom-0 start-0 p-3">
+                            <span class="glass-effect px-3 py-1 rounded-pill text-muted">2023 - настоящее время</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-3">Вологодский колледж связи и ИТ</h3>
+                        <p class="mb-2"><i class="ri-graduation-cap-line me-2"></i>Веб-разработчик, 2-й курс</p>
+                        <p class="text-muted mb-4">Изучаю HTML, CSS, JavaScript и UI/UX, готовясь к созданию будущего веба.</p>
+                        <div class="glass-effect p-4">
+                            <h4 class="fs-5 fw-semibold mb-3">Ключевые предметы</h4>
+                            <ul class="list-unstyled">
+                                <li class="d-flex mb-2"><i class="ri-checkbox-circle-line me-2" style="color: var(--accent-cyan);"></i> Основы веб-разработки</li>
+                                <li class="d-flex mb-2"><i class="ri-checkbox-circle-line me-2" style="color: var(--accent-cyan);"></i> Веб-дизайн и UI/UX</li>
+                                <li class="d-flex mb-2"><i class="ri-checkbox-circle-line me-2" style="color: var(--accent-cyan);"></i> Адаптивная вёрстка</li>
+                                <li class="d-flex"><i class="ri-checkbox-circle-line me-2" style="color: var(--accent-cyan);"></i> Основы программирования</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="music" class="py-5" aria-label="Музыка">
+            <h2 class="fs-1 fw-bold text-center mb-5">Музыка</h2>
+            <div class="glass-effect p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-4">Музыкант</h3>
+                        <p class="text-muted mb-4">Создаю треки с 83к+ слушателей в месяц, заряжая код ритмом.</p>
+                        <div class="glass-effect p-4 mb-4">
+                            <div class="d-flex justify-content-between mb-2"><span>Ежемесячные слушатели</span><span>83 000+</span></div>
+                            <div class="progress"><div class="progress-bar" role="progressbar" style="width: 83%;" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100"></div></div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="Spotify"><i class="ri-spotify-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="YouTube"><i class="ri-youtube-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="Apple Music"><i class="ri-apple-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="SoundCloud"><i class="ri-soundcloud-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row row-cols-2 g-3">
+                            <div class="glass-effect p-3 text-center stats-box"><i class="ri-music-2-line ri-xl mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6 mb-1">25+ треков</p><p class="text-muted fs-6">Выпущено</p></div>
+                            <div class="glass-effect p-3 text-center stats-box"><i class="ri-headphone-line ri-xl mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6 mb-1">400K+</p><p class="text-muted fs-6">Прослушиваний</p></div>
+                            <div class="glass-effect p-3 text-center stats-box"><i class="ri-album-line ri-xl mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6 mb-1">3 альбома</p><p class="text-muted fs-6">Опубликовано</p></div>
+                            <div class="glass-effect p-3 text-center stats-box"><i class="ri-mic-line ri-xl mb-2" style="color: var(--accent-cyan);"></i><p class="fs-6 mb-1">10+</p><p class="text-muted fs-6">Выступлений</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-5" aria-label="Контакты">
+            <h2 class="fs-1 fw-bold text-center mb-5">Контакты</h2>
+            <div class="glass-effect p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-4">Связаться</h3>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="ri-mail-line ri-xl me-3" style="color: var(--accent-cyan);"></i>
+                            <div>
+                                <h4 class="fs-6 fw-semibold mb-1">Email</h4>
+                                <a href="mailto:artem.pokrovsky@example.com" class="text-white">artem.pokrovsky@example.com</a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="ri-phone-line ri-xl me-3" style="color: var(--accent-cyan);"></i>
+                            <div>
+                                <h4 class="fs-6 fw-semibold mb-1">Телефон</h4>
+                                <a href="tel:+79123456789" class="text-white">+7 (912) 345-67-89</a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="ri-map-pin-line ri-xl me-3" style="color: var(--accent-cyan);"></i>
+                            <div>
+                                <h4 class="fs-6 fw-semibold mb-1">Местоположение</h4>
+                                <p class="text-white">Вологда, Россия</p>
+                            </div>
+                        </div>
+                        <h4 class="fs-6 fw-semibold mb-3">Социальные сети</h4>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="Telegram"><i class="ri-telegram-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="VK"><i class="ri-vk-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="GitHub"><i class="ri-github-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                            <a href="#" class="glass-effect rounded-circle p-2 social-icon" aria-label="Instagram"><i class="ri-instagram-fill ri-lg" style="color: var(--accent-cyan);"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="fs-4 fw-semibold mb-4">Сообщение</h3>
+                        <form id="contactForm">
+                            <div class="mb-4">
+                                <label for="name" class="form-label">Имя</label>
+                                <input type="text" class="form-control" id="name" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Ваш email" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Сообщение</label>
+                                <input type="text" class="form-control" id="message" placeholder="Ваше сообщение" required>
+                            </div>
+                            <button type="submit" class="btn btn-accent w-100" tabindex="0" aria-label="Отправить сообщение">Отправить</button>
+                        </form>
+                        <div id="successMessage" class="success-message">Сообщение успешно отправлено!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-4 border-top border-dark text-center" aria-label="Футер">
+        <div class="container">
+            <p class="fs-6 text-muted">© 2025 Артём Покровский. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+
+            console.log('DOM fully loaded, attaching form listener...');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Form submit event triggered.');
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                if (!name || !email || !message) {
+                    console.log('Validation failed: Empty fields detected.');
+                    alert('Пожалуйста, заполните все поля.');
+                    return;
+                }
+
+                try {
+                    const formData = { name, email, message };
+                    console.log('Form data:', formData);
+                    successMessage.classList.add('show');
+                    form.reset();
+
+                    setTimeout(() => {
+                        successMessage.classList.add('fade-out');
+                        setTimeout(() => successMessage.classList.remove('show', 'fade-out'), 500);
+                    }, 3000);
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    alert('Произошла ошибка при отправке. Попробуйте еще раз.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
